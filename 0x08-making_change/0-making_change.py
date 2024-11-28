@@ -1,32 +1,23 @@
 #!/usr/bin/python3
-"""
-Module for making change using the fewest number of coins
-"""
+'''DSA Challenge
+'''
 
 
 def makeChange(coins, total):
-    """
-    Determine the fewest number of coins needed to meet a given amount total
-
-    Args:
-    coins (list of int): List of coin denominations
-    total (int): Target amount
-
-    Returns:
-    int: Fewest number of coins needed to meet total, or -1 if not possible
-    """
+    '''determine the fewest number of coins needed to meet a given amount total
+    '''
     if total <= 0:
         return 0
-
-    # Initialize an array to store the minimum coins needed for each amount
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
-
-    # Iterate through all amounts from 1 to total
-    for i in range(1, total + 1):
-        # Try each coin
-        for coin in coins:
-            if coin <= i:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-
-    return dp[total] if dp[total] != float('inf') else -1
+    coins_count = 0
+    coin_idx = 0
+    sorted_coins = sorted(coins, reverse=True)
+    n = len(coins)
+    while total > 0:
+        if coin_idx >= n:
+            return -1
+        if total - sorted_coins[coin_idx] >= 0:
+            total -= sorted_coins[coin_idx]
+            coins_count += 1
+        else:
+            coin_idx += 1
+    return coins_count
